@@ -1,30 +1,22 @@
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { RootReducer } from "../types";
-import { login } from "../redux/actions";
-import { useNavigate } from "react-router-dom";
-
-type FormType = {
-  email: string;
-  password: string;
-};
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from '../redux/actions';
+import validateForm from '../helpers';
+import { FormType } from '../Types';
 
 function Login() {
-  const { email: emailState } = useSelector((state: RootReducer) => state.user);
-  console.log(emailState);
-  const [form, setForm] = useState<FormType>({ email: emailState, password: "" });
+  const [form, setForm] = useState<FormType>({ email: '', password: '' });
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  // const isDisabled = (formToCheck: FormType) => {
+  //   validateForm(formToCheck);
+  // };
+
   const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = target;
     setForm({ ...form, [name]: value });
-  };
-
-  const isDisabled = (formToCheck: FormType) => {
-    const { email, password } = formToCheck;
-    const regex = /\S+@\S+\.\S+/;
-    const SIX = 6;
-    return !(regex.test(email) && password.length >= SIX);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -35,21 +27,25 @@ function Login() {
 
   return (
     <form onSubmit={ handleSubmit }>
+      <label htmlFor="email">Email</label>
       <input
         type="email"
         name="email"
+        id="email"
         data-testid="email-input"
         placeholder="email"
         onChange={ handleChange }
       />
+      <label htmlFor="password">Senha</label>
       <input
         type="password"
+        id="password"
         name="password"
         data-testid="password-input"
         placeholder="password"
         onChange={ handleChange }
       />
-      <button type="submit" disabled={ isDisabled(form) }>
+      <button type="submit" disabled={ validateForm(form) }>
         Entrar
       </button>
     </form>

@@ -30,3 +30,12 @@ export type UserState = {
   email: string,
 };
 
+export type RootState = {
+  user: UserState,
+  wallet: WalletState,
+};
+
+export type FormType = {
+  email: string;
+  password: string;
+};
