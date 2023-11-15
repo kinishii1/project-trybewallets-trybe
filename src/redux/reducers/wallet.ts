@@ -30,6 +30,7 @@ const wallet = (state = INITIAL_STATE, action: AnyAction) => {
     case "EDIT_EXPENSE":
       return {
         ...state,
+        editing: false,
         expenses: state.expenses.map((expense: any) => {
           if (expense.id === state.editingId) {
             return {

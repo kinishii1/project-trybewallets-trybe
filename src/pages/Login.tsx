@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../redux/actions';
-import validateForm from '../helpers';
+import { validateForm } from '../helpers';
 import { FormType } from '../Types';
 
 function Login() {
