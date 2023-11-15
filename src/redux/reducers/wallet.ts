@@ -1,15 +1,16 @@
-const INITIAL_STATE = {
+import { AnyAction } from "redux";
+import { WalletState } from "../../Types";
+
+const INITIAL_STATE: WalletState = {
   currencies: [],
   expenses: [],
-  total: 0,
-  currencyName: "BRL",
   loading: false,
   error: "",
   editing: false,
   editingId: 0,
 };
 
-const wallet = (state = INITIAL_STATE, action: any) => {
+const wallet = (state = INITIAL_STATE, action: AnyAction) => {
   switch (action.type) {
     case "ADD_EXPENSES":
       return {
@@ -18,19 +19,7 @@ const wallet = (state = INITIAL_STATE, action: any) => {
           ...state.expenses,
           { id: state.expenses.length, ...action.payload },
         ],
-        currencyName: action.payload.currency,
       };
-    // case "SAVE_TOTAL":
-    //   return {
-    //     ...state,
-    //     total: action.payload,
-    //   };
-    // case "ADD_EXCHANGE_RATES":
-    //   return {
-    //     ...state,
-    //     exchangeRates: action.payload,
-    //     loading: false,
-    //   };
     case "DELETE_EXPENSE":
       return {
         ...state,

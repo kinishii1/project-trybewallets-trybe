@@ -1,7 +1,8 @@
+import { UserState } from "../../Types";
 import { LOGIN } from "../actions";
 
 // Esse reducer será responsável por tratar as informações da pessoa usuária
-const INITIAL_STATE = {
+const INITIAL_STATE: UserState = {
   email: '',
 };
 
