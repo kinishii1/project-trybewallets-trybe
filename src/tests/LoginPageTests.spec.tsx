@@ -14,7 +14,7 @@ const inputs = {
   password: '1234567',
 };
 
-describe('Login Page Tests', () => {
+describe('LoginPage', () => {
   it('renderiza os campos de email e senha', () => {
     renderWithRouterAndRedux(<App />);
     const emailInput = screen.getByTestId(testIds.emailInput);

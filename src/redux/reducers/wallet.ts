@@ -18,11 +18,11 @@ const wallet = (state = INITIAL_STATE, action: any) => {
         ],
         currencyName: action.payload.currency,
       };
-    case "SAVE_TOTAL":
-      return {
-        ...state,
-        total: action.payload,
-      };
+    // case "SAVE_TOTAL":
+    //   return {
+    //     ...state,
+    //     total: action.payload,
+    //   };
     case "ADD_EXCHANGE_RATES":
       return {
         ...state,
