@@ -1,9 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Login from './pages/Login';
 import Wallet from './pages/Wallet';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCurrencies } from './redux/actions';
 
 function App() {
+  const dispatch = useDispatch();
+  const currencies = useSelector((state) => state.wallet.currencies);
+  useEffect(() => {
+    if (currencies.length === 0) {
+      dispatch(fetchCurrencies());
+    }
+    console.log('render');
+  }, []);
   return (
     <Routes>
       <Route path='/' element={<Login />}/>
