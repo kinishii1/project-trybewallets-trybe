@@ -67,7 +67,7 @@ export const fetchCurrencies = () => async (dispatch: ThunkDispatchType) => {
     // const currencies = await response.json();
     // const keys = Object.keys(currencies);
     // const filteredKeys = keys.filter((key) => key !== 'USDT');
-    const currencyKeys = getCurrenciesApi();
+    const currencyKeys = await getCurrenciesApi();
     dispatch(addCurrencies(currencyKeys));
   } catch (error: any) {
     // dispatch(failedRequest(error.message));

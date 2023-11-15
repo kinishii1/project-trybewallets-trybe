@@ -8,7 +8,7 @@ function Select({ name, value, onChange, dataTestId = '', options }: SelectProps
       onChange={ onChange }
       data-testid={ dataTestId }
     >
-      {options.map((option) => (
+      {options?.map((option) => (
         <option key={ option.id }>
           {option}
         </option>
