@@ -1,9 +1,14 @@
 export type Currency = {
-  currency: string,
   code: string,
-  ask: number,
-  bid: number,
-  timestamp: number,
+  codein: string,
+  name: string,
+  high: string,
+  low: string,
+  varBid: string,
+  pctChange: string,
+  bid: string,
+  ask: string,
+  timestamp: string,
   create_date: string,
 };
 
@@ -14,12 +19,12 @@ export type Expense = {
   currency: string,
   method: string,
   tag: string,
-  exchangeRates: any,
+  exchangeRates: Currency,
 };
 
 export type WalletState = {
   expenses: Expense[],
-  currencies: Currency[],
+  currencies: string[],
   loading: boolean,
   error: string,
   editing: boolean,
