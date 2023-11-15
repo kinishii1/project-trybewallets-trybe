@@ -4,30 +4,7 @@ import { vi } from 'vitest';
 import { renderWithRouterAndRedux } from './helpers/renderWith';
 import Wallet from '../pages/Wallet';
 import mockData from './helpers/mockData';
-
-const emailState = {
-  user: {
-    email: 'alguem@alguem.com',
-  },
-};
-
-const walletState = {
-  wallet: {
-    currencies: [Object.keys(mockData)],
-    expenses: [
-      {
-        id: 1,
-        value: 5,
-        description: 'teste',
-        currency: 'USD',
-        method: 'Dinheiro',
-        tag: 'Alimentação',
-        exchangeRates: mockData,
-      },
-    ],
-    total: 0,
-  },
-};
+import { emailState, walletState } from './helpers/storeDataMocks';
 
 describe('WalletForm', () => {
   beforeAll(() => {
@@ -97,5 +74,27 @@ describe('WalletForm', () => {
     });
     expect(global.fetch).toBeCalledTimes(3);
     expect(global.fetch).toBeCalledWith('https://economia.awesomeapi.com.br/json/all');
+  });
+  test('verifica se os selects funcionam corretamente', async () => {
+    renderWithRouterAndRedux(<Wallet />, {
+      initialEntries: ['/carteira'],
+      initialState: walletState,
+    });
+
+    const tagSelect = screen.getByTestId('tag-input');
+    const methodSelect = screen.getByTestId('method-input');
+    const currencySelect = screen.getByTestId('currency-input');
+
+    expect(tagSelect).toBeInTheDocument();
+    expect(methodSelect).toBeInTheDocument();
+    expect(currencySelect).toBeInTheDocument();
+
+    await userEvent.selectOptions(tagSelect, 'Saúde');
+    await userEvent.selectOptions(methodSelect, 'Dinheiro');
+    await userEvent.selectOptions(currencySelect, 'XRP');
+
+    expect(tagSelect).toHaveValue('Saúde');
+    expect(methodSelect).toHaveValue('Dinheiro');
+    expect(currencySelect).toHaveValue('XRP');
   });
 });

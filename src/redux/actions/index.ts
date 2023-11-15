@@ -4,7 +4,6 @@ import getCurrenciesApi from '../../service/getCurrenciesApi';
 // Coloque aqui suas actions
 export const LOGIN = 'LOGIN';
 export const ADD_EXPENSES = 'ADD_EXPENSES';
-export const SAVE_TOTAL = 'SAVE_TOTAL';
 export const DELETE_EXPENSE = 'DELETE_EXPENSE';
 export const EDIT_EXPENSE = 'EDIT_EXPENSE';
 export const SET_EDITING = 'SET_EDITING';
@@ -21,11 +20,6 @@ export const login = (email: string) => ({
 export const addExpenses = (expenses: any) => ({
   type: ADD_EXPENSES,
   payload: expenses,
-});
-
-export const saveTotal = (total: number) => ({
-  type: SAVE_TOTAL,
-  payload: total,
 });
 
 export const deleteExpense = (id: number) => ({
