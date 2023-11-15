@@ -56,5 +56,4 @@ export type SelectProps = {
   options: any[];
 };
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-export type ThunkDispatchType = ThunkDispatch<{}, {}, AnyAction>;
+export type ThunkDispatchType = ThunkDispatch<RootState, null, AnyAction>;

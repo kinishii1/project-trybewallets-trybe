@@ -1,7 +1,5 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { ThunkDispatch } from 'redux-thunk';
-import { AnyAction } from 'redux';
 import { addExpenses, fetchCurrencies } from '../redux/actions';
 import getRateExchange from '../service/getRateExchangeApi';
 import { methodOptions, tagOptions } from '../data/data';
@@ -10,6 +8,7 @@ import useEditingStatus from '../hooks/useEditingStatus';
 import useCurrencies from '../hooks/useCurrencies';
 import useFormState from '../hooks/useFormState';
 import Select from './Select';
+import { ThunkDispatchType } from '../Types';
 
 const initialState = {
   value: '',
@@ -22,7 +21,7 @@ const initialState = {
 
 function WalletForm() {
   // eslint-disable-next-line @typescript-eslint/ban-types
-  const dispatch: ThunkDispatch<{}, {}, AnyAction> = useDispatch();
+  const dispatch: ThunkDispatchType = useDispatch();
   const editing = useEditingStatus();
   console.log('[useEditingStatus]', editing);
 

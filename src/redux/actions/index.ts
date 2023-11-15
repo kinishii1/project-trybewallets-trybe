@@ -1,4 +1,5 @@
 import { ThunkDispatchType } from '../../Types';
+import getCurrenciesApi from '../../service/getCurrenciesApi';
 
 // Coloque aqui suas actions
 export const LOGIN = 'LOGIN';
@@ -60,13 +61,14 @@ const addCurrencies = (currencies: any) => ({
 export const fetchCurrencies = () => async (dispatch: ThunkDispatchType) => {
   try {
     // dispatch(startRequest());
-    const response = await fetch(
-      'https://economia.awesomeapi.com.br/json/all',
-    );
-    const currencies = await response.json();
-    const keys = Object.keys(currencies);
-    const filteredKeys = keys.filter((key) => key !== 'USDT');
-    dispatch(addCurrencies(filteredKeys));
+    // const response = await fetch(
+    //   'https://economia.awesomeapi.com.br/json/all',
+    // );
+    // const currencies = await response.json();
+    // const keys = Object.keys(currencies);
+    // const filteredKeys = keys.filter((key) => key !== 'USDT');
+    const currencyKeys = getCurrenciesApi();
+    dispatch(addCurrencies(currencyKeys));
   } catch (error: any) {
     // dispatch(failedRequest(error.message));
     console.log(error.message);
