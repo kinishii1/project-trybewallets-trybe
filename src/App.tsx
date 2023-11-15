@@ -7,13 +7,7 @@ import { fetchCurrencies } from './redux/actions';
 
 function App() {
   const dispatch = useDispatch();
-  const currencies = useSelector((state) => state.wallet.currencies);
-  useEffect(() => {
-    if (currencies.length === 0) {
-      dispatch(fetchCurrencies());
-    }
-    console.log('render');
-  }, []);
+  const currencies = useSelector((state) => state.wallet.currencies)
   return (
     <Routes>
       <Route path='/' element={<Login />}/>
