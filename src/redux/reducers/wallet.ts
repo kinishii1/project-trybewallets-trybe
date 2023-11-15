@@ -1,18 +1,25 @@
-import { AnyAction } from "redux";
-import { WalletState } from "../../Types";
+import { AnyAction } from 'redux';
+import { WalletState } from '../../Types';
+import {
+  ADD_EXPENSES,
+  DELETE_EXPENSE,
+  EDIT_EXPENSE,
+  SET_EDITING,
+  ADD_CURRENCIES,
+} from '../actions';
 
 const INITIAL_STATE: WalletState = {
   currencies: [],
   expenses: [],
   loading: false,
-  error: "",
+  error: '',
   editing: false,
   editingId: 0,
 };
 
 const wallet = (state = INITIAL_STATE, action: AnyAction) => {
   switch (action.type) {
-    case "ADD_EXPENSES":
+    case ADD_EXPENSES:
       return {
         ...state,
         expenses: [
@@ -20,14 +27,14 @@ const wallet = (state = INITIAL_STATE, action: AnyAction) => {
           { id: state.expenses.length, ...action.payload },
         ],
       };
-    case "DELETE_EXPENSE":
+    case DELETE_EXPENSE:
       return {
         ...state,
         expenses: state.expenses.filter(
           (expense: any) => expense.id !== action.payload
         ),
       };
-    case "EDIT_EXPENSE":
+    case EDIT_EXPENSE:
       return {
         ...state,
         editing: false,
@@ -41,28 +48,17 @@ const wallet = (state = INITIAL_STATE, action: AnyAction) => {
           return expense;
         }),
       };
-    case "SET_EDITING":
+    case SET_EDITING:
       return {
         ...state,
         editing: action.payload,
         editingId: action.editingId,
       };
-    case "ADD_CURRENCIES":
+    case ADD_CURRENCIES:
       return {
         ...state,
         currencies: action.payload,
         loading: false,
-      };
-    case "FAILED_REQUEST":
-      return {
-        ...state,
-        error: action.payload,
-        loading: false,
-      };
-    case "START_REQUEST":
-      return {
-        ...state,
-        loading: true,
       };
     default:
       return state;

@@ -1,3 +1,6 @@
+import { AnyAction } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
+
 export type Currency = {
   code: string,
   codein: string,
@@ -44,3 +47,14 @@ export type FormType = {
   email: string;
   password: string;
 };
+
+export type SelectProps = {
+  name: string;
+  value: string;
+  onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  dataTestId?: string;
+  options: any[];
+};
+
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type ThunkDispatchType = ThunkDispatch<{}, {}, AnyAction>;
