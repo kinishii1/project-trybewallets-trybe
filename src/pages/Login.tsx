@@ -1,30 +1,8 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { login } from '../redux/actions';
 import { validateForm } from '../helpers';
-import { FormType } from '../Types';
+import useLoginForm from '../hooks/useLoginForm';
 
 function Login() {
-  const [form, setForm] = useState<FormType>({ email: '', password: '' });
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  // const isDisabled = (formToCheck: FormType) => {
-  //   validateForm(formToCheck);
-  // };
-
-  const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = target;
-    setForm({ ...form, [name]: value });
-  };
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    navigate('/carteira');
-    dispatch(login(form.email));
-  };
-
+  const { formState, handleChange, handleSubmit } = useLoginForm();
   return (
     <form onSubmit={ handleSubmit }>
       <label htmlFor="email">Email</label>
@@ -45,7 +23,7 @@ function Login() {
         placeholder="password"
         onChange={ handleChange }
       />
-      <button type="submit" disabled={ validateForm(form) }>
+      <button type="submit" disabled={ validateForm(formState) }>
         Entrar
       </button>
     </form>
