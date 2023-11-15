@@ -1,113 +1,100 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { ThunkDispatch } from "redux-thunk";
-import { AnyAction } from "redux";
-import { addExpenses, fetchCurrencies } from "../redux/actions";
-import getRateExchange from "../service/getRateExchange";
-import { Form } from "react-router-dom";
-import EditForm from "./EditForm";
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { AnyAction } from 'redux';
+import { addExpenses, fetchCurrencies } from '../redux/actions';
+import getRateExchange from '../service/getRateExchange';
+import { methodOptions, tagOptions } from '../data/data';
+import EditForm from './EditForm';
+import useEditingStatus from '../hooks/useEditingStatus';
+import useCurrencies from '../hooks/useCurrencies';
+import useFormState from '../hooks/useFormState';
+import Select from './Select';
+
+const initialState = {
+  value: '',
+  description: '',
+  currency: 'USD',
+  method: 'Dinheiro',
+  tag: 'Alimentação',
+  exchangeRates: {},
+};
 
 function WalletForm() {
+  // eslint-disable-next-line @typescript-eslint/ban-types
   const dispatch: ThunkDispatch<{}, {}, AnyAction> = useDispatch();
-  const editing = useSelector((state) => state.wallet.editing);
-  const currencies = useSelector((state) => state.wallet.currencies);
-  console.log(currencies);
-  const [formState, setFormState] = useState({
-    value: "",
-    description: "",
-    currency: "USD",
-    method: "Dinheiro",
-    tag: "Alimentação",
-    exchangeRates: {},
-  });
-  const methodOptions = ["Dinheiro", "Cartão de crédito", "Cartão de débito"];
-  const tagOptions = [
-    "Alimentação",
-    "Lazer",
-    "Trabalho",
-    "Transporte",
-    "Saúde",
-  ];
+  const editing = useEditingStatus();
+  console.log('[useEditingStatus]', editing);
+
+  const currencies = useCurrencies();
+  console.log('[useCurrencies]', currencies);
+
+  const { formState, setFormState, changeHandler } = useFormState(initialState);
+  // const [formState, setFormState] = useState(initialState);
 
   useEffect(() => {
     if (currencies.length === 0) {
       dispatch(fetchCurrencies());
     }
-    console.log("render");
+    console.log('render');
   }, []);
 
-  const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setFormState({ ...formState, [name]: value });
-  };
+  // const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const { name, value } = event.target;
+  //   setFormState({ ...formState, [name]: value });
+  // };
+
   console.log(formState);
   const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const exchangeRates = await getRateExchange();
     console.log(exchangeRates);
-    dispatch(addExpenses({...formState, exchangeRates}));
+    dispatch(addExpenses({ ...formState, exchangeRates }));
 
-    setFormState({
-      ...formState,
-      value: "",
-      description: "",
-      currency: "USD",
-      method: "Dinheiro",
-      tag: "Alimentação",
-    });
-    // dispatch(getTotal())
+    setFormState(initialState);
   };
 
   if (editing) return <EditForm />;
 
   return (
-    <form onSubmit={submitHandler}>
+    <form onSubmit={ submitHandler }>
       <input
         type="number"
         data-testid="value-input"
         placeholder="adicionar valor da despesa"
         name="value"
-        value={formState.value}
-        onChange={changeHandler}
+        value={ formState.value }
+        onChange={ changeHandler }
       />
       <input
         type="text"
-        value={formState.description}
+        value={ formState.description }
         name="description"
         data-testid="description-input"
         placeholder="descrição da despesa"
-        onChange={changeHandler}
+        onChange={ changeHandler }
       />
-      <select
+      <Select
         name="currency"
-        data-testid="currency-input"
-        onChange={changeHandler}
-        value={formState.currency}
-      >
-        {currencies.map((currency, index) => (
-          <option key={index}>{currency}</option>
-        ))}
-      </select>
-      <select
+        value={ formState.currency }
+        onChange={ (e) => setFormState({ ...formState, currency: e.target.value }) }
+        options={ currencies }
+        dataTestId="currency-input"
+      />
+      <Select
         name="method"
-        data-testid="method-input"
-        onChange={changeHandler}
-        value={formState.method}
-      >
-        {methodOptions.map((method, index) => (
-          <option key={index}>{method}</option>
-        ))}
-      </select>
-      <select
+        value={ formState.method }
+        onChange={ (e) => setFormState({ ...formState, method: e.target.value }) }
+        options={ methodOptions }
+        dataTestId="method-input"
+      />
+      <Select
         name="tag"
-        data-testid="tag-input"
-        onChange={changeHandler}
-        value={formState.tag}
-      >
-        {tagOptions.map((tag, index) => (
-          <option key={index}>{tag}</option>
-        ))}
-      </select>
+        value={ formState.tag }
+        onChange={ (e) => setFormState({ ...formState, tag: e.target.value }) }
+        options={ tagOptions }
+        dataTestId="tag-input"
+      />
       <button type="submit">Adicionar despesa</button>
     </form>
   );
