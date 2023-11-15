@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
 import { addExpenses, fetchCurrencies } from '../redux/actions';
-import getRateExchange from '../service/getRateExchange';
+import getRateExchange from '../service/getRateExchangeApi';
 import { methodOptions, tagOptions } from '../data/data';
 import EditForm from './EditForm';
 import useEditingStatus from '../hooks/useEditingStatus';
