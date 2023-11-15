@@ -29,6 +29,13 @@ const wallet = (state = INITIAL_STATE, action: any) => {
         exchangeRates: action.payload,
         loading: false,
       };
+    case "DELETE_EXPENSE":
+      return {
+        ...state,
+        expenses: state.expenses.filter(
+          (expense: any) => expense.id !== action.payload
+        ),
+      };
     case "ADD_CURRENCIES":
       return {
         ...state,

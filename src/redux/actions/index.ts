@@ -24,6 +24,13 @@ export const saveTotal = (total: number) => ({
   payload: total,
 });
 
+export const DELETE_EXPENSE = "DELETE_EXPENSE";
+
+export const deleteExpense = (id: number) => ({
+  type: DELETE_EXPENSE,
+  payload: id,
+});
+
 export const FAILED_REQUEST = "FAILED_REQUEST";
 export const START_REQUEST = "START_REQUEST";
 export const ADD_CURRENCIES = "ADD_CURRENCIES";
