@@ -31,6 +31,21 @@ export const deleteExpense = (id: number) => ({
   payload: id,
 });
 
+export const EDIT_EXPENSE = "EDIT_EXPENSE";
+
+export const editExpense = (expense) => ({
+  type: EDIT_EXPENSE,
+  payload: expense,
+});
+
+export const SET_EDITING = "SET_EDITING";
+
+export const setEditing = (editing: boolean, id) => ({
+  type: SET_EDITING,
+  payload: editing,
+  editingId: id
+});
+
 export const FAILED_REQUEST = "FAILED_REQUEST";
 export const START_REQUEST = "START_REQUEST";
 export const ADD_CURRENCIES = "ADD_CURRENCIES";

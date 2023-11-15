@@ -1,15 +1,12 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ThunkDispatch } from "redux-thunk";
 import { AnyAction } from "redux";
-import { addExpenses, fetchCurrencies } from "../redux/actions";
+import { ThunkDispatch } from "redux-thunk";
+import { editExpense } from "../redux/actions";
 import getRateExchange from "../service/getRateExchange";
-import { Form } from "react-router-dom";
-import EditForm from "./EditForm";
 
-function WalletForm() {
+function EditForm() {
   const dispatch: ThunkDispatch<{}, {}, AnyAction> = useDispatch();
-  const editing = useSelector((state) => state.wallet.editing);
   const currencies = useSelector((state) => state.wallet.currencies);
   console.log(currencies);
   const [formState, setFormState] = useState({
@@ -29,13 +26,6 @@ function WalletForm() {
     "Saúde",
   ];
 
-  useEffect(() => {
-    if (currencies.length === 0) {
-      dispatch(fetchCurrencies());
-    }
-    console.log("render");
-  }, []);
-
   const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormState({ ...formState, [name]: value });
@@ -45,8 +35,7 @@ function WalletForm() {
     event.preventDefault();
     const exchangeRates = await getRateExchange();
     console.log(exchangeRates);
-    dispatch(addExpenses({...formState, exchangeRates}));
-
+    dispatch(editExpense({ ...formState, exchangeRates }));
     setFormState({
       ...formState,
       value: "",
@@ -57,9 +46,6 @@ function WalletForm() {
     });
     // dispatch(getTotal())
   };
-
-  if (editing) return <EditForm />;
-
   return (
     <form onSubmit={submitHandler}>
       <input
@@ -108,9 +94,9 @@ function WalletForm() {
           <option key={index}>{tag}</option>
         ))}
       </select>
-      <button type="submit">Adicionar despesa</button>
+      <button type="submit">Editar despesa</button>
     </form>
   );
 }
 
-export default WalletForm;
+export default EditForm;

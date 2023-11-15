@@ -5,6 +5,8 @@ const INITIAL_STATE = {
   currencyName: "BRL",
   loading: false,
   error: "",
+  editing: false,
+  editingId: 0,
 };
 
 const wallet = (state = INITIAL_STATE, action: any) => {
@@ -23,18 +25,37 @@ const wallet = (state = INITIAL_STATE, action: any) => {
     //     ...state,
     //     total: action.payload,
     //   };
-    case "ADD_EXCHANGE_RATES":
-      return {
-        ...state,
-        exchangeRates: action.payload,
-        loading: false,
-      };
+    // case "ADD_EXCHANGE_RATES":
+    //   return {
+    //     ...state,
+    //     exchangeRates: action.payload,
+    //     loading: false,
+    //   };
     case "DELETE_EXPENSE":
       return {
         ...state,
         expenses: state.expenses.filter(
           (expense: any) => expense.id !== action.payload
         ),
+      };
+    case "EDIT_EXPENSE":
+      return {
+        ...state,
+        expenses: state.expenses.map((expense: any) => {
+          if (expense.id === state.editingId) {
+            return {
+              ...expense,
+              ...action.payload,
+            };
+          }
+          return expense;
+        }),
+      };
+    case "SET_EDITING":
+      return {
+        ...state,
+        editing: action.payload,
+        editingId: action.editingId,
       };
     case "ADD_CURRENCIES":
       return {
