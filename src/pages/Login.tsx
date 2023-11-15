@@ -2,7 +2,7 @@ import { validateForm } from '../helpers';
 import useLoginForm from '../hooks/useLoginForm';
 
 function Login() {
-  const { formState, handleChange, handleSubmit } = useLoginForm();
+  const { loginState, handleChange, handleSubmit } = useLoginForm();
   return (
     <form onSubmit={ handleSubmit }>
       <label htmlFor="email">Email</label>
@@ -23,7 +23,7 @@ function Login() {
         placeholder="password"
         onChange={ handleChange }
       />
-      <button type="submit" disabled={ validateForm(formState) }>
+      <button type="submit" disabled={ validateForm(loginState) }>
         Entrar
       </button>
     </form>

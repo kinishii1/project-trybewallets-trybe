@@ -8,22 +8,27 @@ type LoginFormState = {
   password: string;
 };
 
+const initialState = {
+  email: '',
+  password: '',
+};
+
 const useLoginForm = () => {
-  const [formState, setFormState] = useState<LoginFormState>({ email: '', password: '' });
+  const [loginState, setloginState] = useState<LoginFormState>(initialState);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setFormState((prevState) => ({ ...prevState, [name]: value }));
+    setloginState((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     navigate('/carteira');
-    dispatch(login(formState.email));
+    dispatch(login(loginState.email));
   };
-  return { formState, handleChange, handleSubmit };
+  return { loginState, handleChange, handleSubmit };
 };
 
 export default useLoginForm;
